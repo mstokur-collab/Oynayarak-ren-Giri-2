@@ -147,11 +147,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     
     const handleSubjectSelect = useCallback((subjectId: string) => {
       setSelectedSubjectId(subjectId);
-      const count = getSubjectCount(subjectId);
-      if (userType === 'authenticated' && count === 0) {
+      const subjectQuestionCount = questions.filter(q => q.subjectId === subjectId).length;
+      if (userType === 'authenticated' && subjectQuestionCount === 0) {
         setShowNoQuestionsModal(true);
       }
-    }, [getSubjectCount, userType, setSelectedSubjectId, setShowNoQuestionsModal]);
+    }, [questions, userType, setSelectedSubjectId, setShowNoQuestionsModal]);
 
     const handleLogin = useCallback(() => {
         const hasLoggedIn = window.localStorage.getItem('hasLoggedInBefore');

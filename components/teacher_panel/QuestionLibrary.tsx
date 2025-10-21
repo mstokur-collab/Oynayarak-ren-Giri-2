@@ -78,20 +78,14 @@ export const QuestionLibrary: React.FC = () => {
     };
     
     const handleSelectQuestion = (q: Question) => {
-        // Uygulamanın genel durumunu (state) oynanacak soruyla tutarlı hale getir.
-        // Bu, GameScreen gibi bileşenlerdeki olası tutarsızlıkları ve çökmeleri önler.
         handleSubjectSelect(q.subjectId);
         updateSetting('grade', q.grade);
         updateSetting('topic', q.topic);
         updateSetting('kazanımId', q.kazanımId);
         updateSetting('difficulty', q.difficulty);
-        // FIX: `Question` tipi 'kapisma' içermediği için `q.type === 'kapisma'` karşılaştırması
-        // her zaman `false` olup TypeScript hatasına neden oluyordu.
-        // Doğrudan oynatma için oyun modunu sorunun tipiyle eşleştirmek yeterlidir.
         updateSetting('gameMode', q.type);
         updateSetting('questionCount', 1);
 
-        // Belirli bir soruyu oynatmak için özel mekanizmayı kullan.
         setDirectGameQuestions([q]);
         navigate('/oyun');
     }

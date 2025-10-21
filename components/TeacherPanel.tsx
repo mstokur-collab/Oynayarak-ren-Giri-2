@@ -6,7 +6,7 @@ import { QuestionLibrary } from './teacher_panel/QuestionLibrary';
 import { DocumentManager } from './teacher_panel/DocumentManager';
 import { ExamGenerator } from './teacher_panel/ExamGenerator';
 import { Tools } from './teacher_panel/Tools';
-import { useAppContext } from '../contexts/AppContext';
+import { useAppContext } from '../../contexts/AppContext';
 
 type TeacherPanelTab = 'generator' | 'library' | 'documents' | 'exams' | 'tools';
 
@@ -24,8 +24,8 @@ const TeacherPanel: React.FC = () => {
 
   const tabConfig = {
     generator: { label: 'Soru Üret', icon: '✨' },
-    library: { label: `Soru Bankası (${questions.length})`, icon: '📚' },
-    documents: { label: `Kütüphanem (${documentLibrary.length})`, icon: '📂' },
+    library: { label: `Soru Bankası (${userType === 'authenticated' ? questions.length : 'Demo'})`, icon: '📚' },
+    documents: { label: `Kütüphanem (${userType === 'authenticated' ? documentLibrary.length : 'Demo'})`, icon: '📂' },
     exams: { label: 'Yazılı Hazırla', icon: '📝' },
     tools: { label: 'Araçlar', icon: '🛠️' },
   };

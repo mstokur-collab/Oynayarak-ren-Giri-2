@@ -6,7 +6,7 @@ import { Button } from '../UI';
 import ReactMarkdown from 'react-markdown';
 import { useAppContext } from '../../contexts/AppContext';
 
-const EXAM_GENERATION_COST = 10;
+const EXAM_GENERATION_COST = 5;
 
 const subjectData: Record<string, { name: string }> = {
     'social-studies': { name: 'Sosyal Bilgiler' },

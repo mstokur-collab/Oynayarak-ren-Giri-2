@@ -10,8 +10,7 @@ type LoadingStatus = 'idle' | 'reading' | 'processing';
 const FileUploader: React.FC<{ 
   onFileUpload: (file: File) => void; 
   loadingStatus: LoadingStatus; 
-  userType: 'guest' | 'authenticated'; 
-}> = ({ onFileUpload, loadingStatus, userType }) => {
+}> = ({ onFileUpload, loadingStatus }) => {
   const [dragActive, setDragActive] = useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -44,15 +43,6 @@ const FileUploader: React.FC<{
   const onButtonClick = () => {
     inputRef.current?.click();
   };
-
-  if (userType === 'guest') {
-    return (
-        <div className="text-center mt-3 p-4 bg-yellow-900/40 border border-yellow-500/50 rounded-lg">
-            <p className="font-semibold text-yellow-300">Bu Özelliği Kullanmak İçin Giriş Yapın</p>
-            <p className="text-sm text-yellow-400/80 mt-1">Giriş yaparak döküman yükleyebilir, dökümanlardan soru üretebilir ve daha fazlasını yapabilirsiniz!</p>
-        </div>
-    )
-  }
 
   const loadingMessages: Record<LoadingStatus, string> = {
     idle: '',
@@ -153,6 +143,15 @@ export const DocumentManager: React.FC = () => {
     setDocToDelete(null);
   };
 
+    if (userType === 'guest') {
+        return (
+            <div className="p-6 text-center">
+                <h3 className="text-xl font-bold text-yellow-300">Bu Özellik İçin Giriş Yapın</h3>
+                <p className="mt-2 text-slate-400">Giriş yaparak kendi kaynak dökümanlarınızı yükleyebilir ve yönetebilirsiniz.</p>
+            </div>
+        );
+    }
+
   return (
     <div className="p-4 sm:p-6 space-y-4">
         <h3 className="text-xl font-bold text-violet-300">Kaynak Kütüphanem</h3>
@@ -161,7 +160,7 @@ export const DocumentManager: React.FC = () => {
             Yapay zeka, PDF'lerinizden konu başlıkları çıkararak bu konulara özel sorular üretmenizi sağlar. Görsellerdeki sorular ise analiz edilerek doğrudan Soru Bankanıza eklenir.
         </p>
         <div className="h-48">
-            <FileUploader onFileUpload={handleFileUpload} loadingStatus={loadingStatus} userType={userType} />
+            <FileUploader onFileUpload={handleFileUpload} loadingStatus={loadingStatus} />
         </div>
         {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 

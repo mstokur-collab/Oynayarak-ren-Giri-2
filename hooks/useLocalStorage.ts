@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 // A custom hook to manage state with localStorage
 export function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {

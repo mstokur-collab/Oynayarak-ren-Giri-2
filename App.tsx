@@ -97,7 +97,7 @@ const App: React.FC = () => {
                                 <h1 className="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-indigo-400 mb-2 py-4">Oynayarak Öğren</h1>
                                 <p className="text-lg text-slate-400 mb-10">Öğrenmenin en eğlenceli yolu!</p>
                                 <div className="flex flex-col gap-4 w-full max-w-sm">
-                                    <Button onClick={() => { handleSubjectSelect(selectedSubjectId); navigate('/basla'); }}>🎮 Misafir Olarak Hızlı Başla</Button>
+                                    <Button onClick={() => navigate('/ders-sec')}>🎮 Misafir Olarak Hızlı Başla</Button>
                                     <Button onClick={() => { handleLogin(); navigate('/ders-sec'); }} variant="primary" className="text-base py-3">Giriş Yap</Button>
                                     <Button onClick={() => {}} variant="secondary" className="text-base py-3">Kayıt Ol</Button>
                                 </div>
@@ -107,7 +107,7 @@ const App: React.FC = () => {
                         <Route path="/ders-sec" element={
                              <RouteWrapper>
                                 <div className="grade-selection-container">
-                                    <button onClick={() => navigate(-1)} className="back-button-yellow">← Geri</button>
+                                    <button onClick={() => navigate('/')} className="back-button-yellow">← Ana Menü</button>
                                     <h2 className="grade-selection-title">Dersini Seç</h2>
                                     <div className="grade-buttons-wrapper subject-selection-grid">
                                         {Object.entries(subjectData).map(([id, { name }], index) => {

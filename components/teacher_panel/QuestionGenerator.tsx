@@ -170,6 +170,20 @@ export const QuestionGenerator: React.FC = () => {
     return <div className="p-6 text-center">Müfredat verisi yükleniyor...</div>;
   }
 
+  const getButtonText = () => {
+    if (isLoading) {
+        return 'Sorular Üretiliyor...';
+    }
+    if (userType === 'guest') {
+        return 'Giriş Yap ve Üret';
+    }
+    if (userType === 'authenticated' && aiCredits < creditCost) {
+        return `Yetersiz Kredi (${aiCredits}/${creditCost})`;
+    }
+    return `✨ AI ile Soru Üret (${creditCost} Kredi)`;
+  };
+
+
   return (
     <div className="p-4 sm:p-6 space-y-4">
       <h3 className="text-xl font-bold text-violet-300">AI ile Yeni Soru Üret</h3>
@@ -180,7 +194,7 @@ export const QuestionGenerator: React.FC = () => {
                 <input type="radio" name="context" value="default" checked={generationContext === 'default'} onChange={() => setGenerationContext('default')} className="form-radio text-violet-500 bg-slate-700 border-slate-500 focus:ring-violet-500" />
                 <span>Müfredattan</span>
             </label>
-            <label className="flex items-center space-x-2 cursor-pointer">
+            <label className={`flex items-center space-x-2 ${userType === 'guest' ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                 <input type="radio" name="context" value="pdf-topic" checked={generationContext === 'pdf-topic'} onChange={() => setGenerationContext('pdf-topic')} className="form-radio text-violet-500 bg-slate-700 border-slate-500 focus:ring-violet-500" disabled={userType === 'guest'} />
                 <span>Kütüphaneden (PDF)</span>
             </label>
@@ -204,11 +218,11 @@ export const QuestionGenerator: React.FC = () => {
             </>
         ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Select value={selectedDocumentId} onChange={e => setSelectedDocumentId(e.target.value)}>
+                <Select value={selectedDocumentId} onChange={e => setSelectedDocumentId(e.target.value)} disabled={userType === 'guest'}>
                     <option value="">Döküman Seçin</option>
                     {documentLibrary.filter(d => d.content.mimeType === 'application/pdf').map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
                 </Select>
-                <Select value={selectedTopic} onChange={e => setSelectedTopic(e.target.value)} disabled={!selectedDocument}>
+                <Select value={selectedTopic} onChange={e => setSelectedTopic(e.target.value)} disabled={!selectedDocument || userType === 'guest'}>
                     <option value="">Konu Seçin</option>
                     {selectedDocument?.topics.map(t => <option key={t} value={t}>{t}</option>)}
                 </Select>
@@ -256,14 +270,7 @@ export const QuestionGenerator: React.FC = () => {
             disabled={isLoading || userType === 'guest' || (userType === 'authenticated' && aiCredits < creditCost)} 
             variant="violet" 
             className="w-full !py-3 !text-lg">
-         {isLoading 
-             ? 'Sorular Üretiliyor...' 
-             : userType === 'guest' 
-               ? 'Giriş Yap ve Üret'
-               : aiCredits < creditCost
-                 ? `Yetersiz Kredi (${aiCredits}/${creditCost})`
-                 : `✨ AI ile Soru Üret (${creditCost} Kredi)`
-          }
+            {getButtonText()}
         </Button>
         {userType === 'guest' && (
           <div className="text-center mt-3 p-3 bg-yellow-900/40 border border-yellow-500/50 rounded-lg">
